@@ -1,6 +1,7 @@
 import keyboard
 import threading
 import time
+import EventHandler
 
 class Input(object):
     @staticmethod
@@ -9,7 +10,6 @@ class Input(object):
             creates then runs a thread to keep the process from exiting
             then returns it
         """
-
         def func(): time.sleep(999999)
 
         aliveThread = threading.Timer(9999, func)
@@ -26,14 +26,16 @@ class Input(object):
             @Input.hookKeyEventDecorator(keyname)
         """
         def wrapper(function):
-            self.KeyHooks[keyname] = function
+            if not keyname in self.KeyHooks: self.KeyHooks[keyname] = []
+            self.KeyHooks[keyname].append(function)
         return wrapper
     
     def hookKeyEvent(self, function, keyname):
         """
             hooks a predefined function to a key, it's recommended to use decorators
         """
-        self.KeyHooks[keyname] = function
+        if not keyname in self.KeyHooks: self.KeyHooks[keyname] = []
+        self.KeyHooks[keyname].append(function)
     
     def unhookKey(self, keyname):
         """
@@ -51,6 +53,7 @@ class Input(object):
             unhooks ALL key events
         """
         self.KeyHooks = {}
+        EventHandler.MainHandler.fireEvent(EventHandler.Events.UnhookedAllKeyhooks, None)
 
     def start(self):
         """
@@ -63,9 +66,11 @@ class Input(object):
             if down:
                 if e.name in self.KeysDown: return
                 self.KeysDown.append(e.name)
-                if e.name in self.KeyHooks: self.KeyHooks[e.name](down)
+                if e.name in self.KeyHooks:
+                    for hook in self.KeyHooks[e.name]: hook(down)
             elif not down:
                 if e.name in self.KeysDown: self.KeysDown.remove(e.name)
-                if e.name in self.KeyHooks: self.KeyHooks[e.name](down)
+                if e.name in self.KeyHooks:
+                    for hook in self.KeyHooks[e.name]: hook(down)
         
         keyboard.hook(keypress)
