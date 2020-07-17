@@ -1,6 +1,7 @@
 +==Settings==========================+
-|  This feature is under development |
+|  Settings 1.0v                     |
 +====================================+
  +=CONTROLS=========================+
- | R: Return to MainMenu |          |
+ | M: View Loaded Mods              |
+ | R: Return to MainMenu            |
  +==================================+
