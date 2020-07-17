@@ -1,38 +1,61 @@
 import Input
 import time
 import os
+import importlib
+from Game import Game
+from Mods.BaseMod import Mod
+from PlayerData import PlayerData
+from Area import Area
+from Material import Material
+from Registry import Registry, MaterialRegistry, AreaRegistry, ModRegistry
 from AssetManager import AssetManager
+from Globals import Keys
 
-keys = None
+game = Game()
+playerData = PlayerData({})
 
 def play():
     AssetManager.clearScreen()
     print(AssetManager.grabAsset('playMenu'))
-    @keys.hookKeyEventDecorator('r')
+    @Keys.hookKeyEventDecorator('r')
     def event(down):
-        keys.unhookAll()
+        Keys.unhookAll()
         mainMenu()
 
 def settings():
+    def ModPage():
+        AssetManager.clearScreen()
+        print(AssetManager.grabAsset('modsMenu'))
+        for mod in ModRegistry.reg:
+            Info = ModRegistry.getItem(mod).Mod.info
+            formated = 'ModName: {}\nModId: {}\nDescription: {}\nAuthor: {}'.format(Info["modname"], Info["modid"], Info["description"], Info["author"])
+            print(AssetManager.generateBoxedText(formated))
+
     AssetManager.clearScreen()
     print(AssetManager.grabAsset('settingsMenu'))
-    @keys.hookKeyEventDecorator('r')
+    @Keys.hookKeyEventDecorator('r')
     def event(down):
-        keys.unhookAll()
+        Keys.unhookAll()
         mainMenu()
+    
+    @Keys.hookKeyEventDecorator('m')
+    def event(down):
+        Keys.unhookAll()
+        ModPage()
+
 
 def mainMenu():
     AssetManager.clearScreen()
     print(AssetManager.grabAsset('mainMenu'))
 
-    @keys.hookKeyEventDecorator('p')
+    @Keys.hookKeyEventDecorator('p')
     def event(down):
-        keys.unhookAll()
+        Keys.unhookAll()
         play()
 
-    @keys.hookKeyEventDecorator('e')
+    @Keys.hookKeyEventDecorator('e')
     def event(down):
-        keys.unhookAll()
+        Keys.unhookAll()
         AssetManager.clearScreen()
         print('Thank you for playing')
         for num in range(0, 3):
@@ -41,18 +64,19 @@ def mainMenu():
         print('closing')
         os.abort()
     
-    @keys.hookKeyEventDecorator('s')
+    @Keys.hookKeyEventDecorator('s')
     def event(down):
-        keys.unhookAll()
+        Keys.unhookAll()
         settings()
-        
-        
 
 def main():
     AssetManager.clearScreen()
-    global keys
-    keys = Input.Input()
-    keys.start()
+    Keys.start()
+
+    for folder in os.listdir('./Mods'):
+        Mod = importlib.import_module('.{}'.format(folder), package='Mods')
+        ModRegistry.registerItem(folder, Mod)
+        Mod.Mod.Load(game)
     Input.Input.genAliveThread()
     mainMenu()
 
