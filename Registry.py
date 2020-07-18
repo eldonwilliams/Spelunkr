@@ -20,7 +20,7 @@ class Registry(object):
         """
             Gets a registered item
         """
-        return self.reg[name]
+        return self.reg[name] if name in self.reg else None
     
 MaterialRegistry = Registry()
 AreaRegistry = Registry()
