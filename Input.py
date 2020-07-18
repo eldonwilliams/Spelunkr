@@ -2,8 +2,17 @@ import keyboard
 import threading
 import time
 import EventHandler
+import msvcrt
 
 class Input(object):
+    @staticmethod
+    def flushInput():
+        """
+            flushes input stream/buffer
+        """
+        while msvcrt.kbhit():
+            msvcrt.getch()
+
     @staticmethod
     def genAliveThread():
         """
