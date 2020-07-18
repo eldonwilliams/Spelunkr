@@ -6,9 +6,9 @@ import PlayerData
 import Area
 import Globals
 import EventHandler
-from Registry import Registry
+from Registry import Registry as REG
 
-class Game(Registry):
+class Game(REG):
     """
         Contains most modules of Spelunkr
         *extends of Registry*
