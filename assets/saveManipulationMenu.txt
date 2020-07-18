@@ -1,0 +1,13 @@
+       +=============+
+       | Save Loader |
+       +=============+
++INFO=======================+
+| You currently do not have |
+| a loaded save, this menu  |
+|    lets you load one.     |
++===========================+
++CONTROLS===================+
+| L: Load a save            |
+| C: Create a save          |
+| R: Return to mainmenu     |
++===========================+

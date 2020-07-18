@@ -1,0 +1,14 @@
++================+
+| Area Selection |
++================+
++LEGEND===============+
+| █ = Not unlocked    |
+| ▓ = Can be unlocked |
+| ▒ = Unlocked        |
+| » = Selected        |
++=====================+
++CONTROLS================+
+| Enter: Buy Area / Pick |
+| R: Return to mainmenu  |
++========================+
+{}

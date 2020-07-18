@@ -1,0 +1,11 @@
++========+
+|  Load  |
++========+
+
+{}
++INPUT=======================+
+| Down Arrow: Selection down |
+| Up Arrow: Selection up     |
+| R: Return                  |
+| Enter: Load                |
++============================+
