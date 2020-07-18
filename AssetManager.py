@@ -9,7 +9,7 @@ class AssetManager(object):
         """
             grbas a asset from a file location rather than the ./assets/{}.txt
         """
-        f = open(filelocation)
+        f = open(filelocation, encoding='utf-8')
         lines = f.readlines()
         string = ""
         f.close()
@@ -40,6 +40,15 @@ class AssetManager(object):
             string += "| {}{} |\n".format(section, (len(longestSegment)-len(section))*" ")
         string += "+={}=+\n".format(len(longestSegment)*"=")
         return string
+    
+    @staticmethod
+    def saveAsset(assetFile, newName):
+        """
+            Pushes data from a filelocation to a .txt in assets 
+        """
+        f = open('./assets/{}.txt'.format(newName), 'w+')
+        f.writelines(assetFile.readlines())
+        f.close()
 
     @staticmethod
     def clearScreen():
